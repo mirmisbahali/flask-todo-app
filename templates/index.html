@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container my-5">
+        <form action="/" method="POST">
+            <div class="mb-3">
+              <label for="task" class="form-label">Task</label>
+              <input type="text" class="form-control" name="task" id="task" aria-describedby="task">
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Description</label>
+                <input type="text" class="form-control" name="desc" id="desc" aria-describedby="desc">
+              </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+          <div class="contailer-fluid my-5">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date_created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for i in allTodo %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{i.title}}</td>
+                        <td>{{i.desc}}</td>
+                        <td>{{i.date_created}}</td>
+                        <td>
+                            <a href="/delete/{{i.sno}}" class="btn btn-outline-danger">Delete</a>
+                            <a href="/update/{{i.sno}}" class="btn btn-outline-success">Update</a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  
+                </tbody>
+              </table>
+          </div>
+    </div>
+{% endblock body %}
