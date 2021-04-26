@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -26,6 +26,27 @@ def hello_world():
         db.session.commit()
     allTodo = Todo.query.all()
     return render_template('index.html', allTodo=allTodo)
+
+@app.route('/update/<int:sno>', methods=['GET', 'POST'])
+def update_task(sno):
+    if request.method=='POST':
+        title = request.form['task']
+        desc = request.form['desc']
+        todo = Todo.query.filter_by(sno=sno).first()
+        todo.title = title
+        todo.desc = desc
+        db.session.commit()
+        return redirect('/')
+    todo = Todo.query.filter_by(sno=sno).first()
+    return render_template('update.html', todo=todo)
+
+@app.route('/delete/<int:sno>')
+def delete_task(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect('/')
+    
 
 
 
